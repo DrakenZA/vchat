@@ -29,6 +29,10 @@ peer.on('call',function(call) {
 
 
 });
+peer.on('disconnected',function(call) {
+
+peer.reconnect();
+});
 
 
 
