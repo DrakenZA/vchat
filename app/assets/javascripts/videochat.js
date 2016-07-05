@@ -11,14 +11,33 @@ $(document).on('ready page:load', function(){
 },function(){ });
 
 
-var peer = new Peer({host:"draken-peerjs-server.herokuapp.com",port:"",secure:true,debug:"3"});
+var peer = new Peer({host:"draken-peerjs-server.herokuapp.com",port:'',secure:true,debug:"3"});
 
 
 peer.on('open', function(id) {
   $('#yourid').text("Your ID is: " + id);
 
   console.log('test : ' + id);
+  // pass the peer instance, and it will start sending heartbeats
+  var heartbeater = makePeerHeartbeater( peer );
 });
+
+
+
+// stop them later
+// heartbeater.stop();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -29,10 +48,7 @@ peer.on('call',function(call) {
 
 
 });
-peer.on('disconnected',function(call) {
 
-peer.reconnect();
-});
 
 
 
@@ -65,4 +81,27 @@ call.on('stream',function(stream) {
   var audioStream = audioContext.createMediaStreamSource(stream);
   audioStream.connect(audioContext.destination);
 });
+}
+
+
+function makePeerHeartbeater ( peer ) {
+    var timeoutId = 0;
+    function heartbeat () {
+        timeoutId = setTimeout( heartbeat, 20000 );
+        if ( peer.socket._wsOpen() ) {
+            peer.socket.send( {type:'HEARTBEAT'} );
+        }
+    }
+    // Start
+    heartbeat();
+    // return
+    return {
+        start : function () {
+            if ( timeoutId === 0 ) { heartbeat(); }
+        },
+        stop : function () {
+            clearTimeout( timeoutId );
+            timeoutId = 0;
+        }
+    };
 }
