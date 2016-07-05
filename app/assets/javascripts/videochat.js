@@ -11,7 +11,7 @@ $(document).on('ready page:load', function(){
 },function(){ });
 
 
-var peer = new Peer({key: '9ejxboga34p74x6r'});
+var peer = new Peer({key: '9ejxboga34p74x6r'},{secure:true});
 
 
 peer.on('open', function(id) {
