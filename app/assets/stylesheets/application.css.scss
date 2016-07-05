@@ -1,0 +1,24 @@
+// Example using 'Cerulean' bootswatch
+@import url(https://fonts.googleapis.com/css?family=Poiret+One);
+$font-family-sans-serif: 'Poiret One' !default;
+//Import bootstrap-sprockets
+@import "bootstrap-sprockets";
+
+// Import cerulean variables
+@import "bootswatch/spacelab/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// Bootstrap body padding for fixed navbar
+body { padding-top: 60px; }
+
+// And finally bootswatch style itself
+@import "bootswatch/spacelab/bootswatch";
+
+// Whatever application styles you have go last
+
+
+/*
+ *= require jquery-ui/core
+ */
