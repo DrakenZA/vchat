@@ -1,11 +1,15 @@
 <!-- <script src='http://cdn.peerjs.com/0.3.14/peer.min.js'></script> -->
+<div class="container" style="text-align:center">
+<h1 id='conn-status' style="text-align:center;color:blue"> Connecting </h2>
+<h3 id='conn-who' style="text-align:center;color:orange"> </h2>
 
 <p id="yourid">Your id</p>
-<input type="text" class="form-control" id="inputid" placeholder="id">
+<input type="text" class='input-lg' id="inputid" placeholder="id" style="width:20%">
 <a class="btn btn-primary btn-lg" id="connectbutton">Connect</a>
-
+</div>
 
 <div id="video-container">
-        <video id="their-video" autoplay=""></video>
-        <video id="my-video" muted="true" autoplay=""></video>
+        <video id="my-video" muted="true" autoplay="" style="width:25%;length:25%"></video>
+
+        <video id="their-video" autoplay="" style="width:40%;length:40%"></video>
       </div>

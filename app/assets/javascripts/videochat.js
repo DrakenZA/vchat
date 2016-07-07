@@ -16,6 +16,9 @@ var peer = new Peer({host:"draken-peerjs-server.herokuapp.com",port:'',secure:tr
 
 peer.on('open', function(id) {
   $('#yourid').text("Your ID is: " + id);
+  $('#conn-status').text("Connected");
+  $('#conn-status').css("color","yellowgreen");
+
 
   console.log('test : ' + id);
   // pass the peer instance, and it will start sending heartbeats
@@ -44,10 +47,20 @@ peer.on('open', function(id) {
 
 peer.on('call',function(call) {
   call.answer(window.localStream);
-  step3(call);
+  call_listen(call);
 
 
 });
+
+peer.on('disconnected',function(call) {
+  $('#yourid').text("Your ID is: " + "error");
+  $('#conn-status').text("Disconnected");
+  $('#conn-status').css("color","red");
+  heartbeater.stop();
+
+});
+
+
 
 
 
@@ -63,7 +76,8 @@ $( "#connectbutton" ).click(function() {
 var destid = $("#inputid").val();
 console.log(destid);
 var call = peer.call(destid, window.localStream);
-step3(call);
+call_listen(call);
+error_listen(peer,call);
 
 });
 
@@ -74,13 +88,30 @@ step3(call);
 });
 
 
-function step3 (call) {
+function call_listen (call) {
 call.on('stream',function(stream) {
   $('#their-video').prop('src', URL.createObjectURL(stream));
   var audioContext = new AudioContext();
   var audioStream = audioContext.createMediaStreamSource(stream);
   audioStream.connect(audioContext.destination);
+  $('#conn-who').text("A/V Link to: " + call.peer);
 });
+
+call.on('close',function(stream) {
+  $('#conn-who').text("");
+  $('#their-video').prop('src',"");
+});
+
+}
+
+
+
+function error_listen (peer,call) {
+  peer.on('error', function(err) {
+    if ( err.type = 'peer-unavailable' ) {  $('#conn-who').text("Failed to Link to: " + call.peer)}
+
+  });
+
 }
 
 
