@@ -11,7 +11,7 @@ $(document).on('ready page:load', function(){
 },function(){ });
 
 
-var peer = new Peer({host:"draken-peerjs-server.herokuapp.com",port:'',secure:true,debug:"3"});
+var peer = new Peer({host:"draken-peerjs-server.herokuapp.com",port:'',secure:true,debug:"3",config:{ 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] }});
 
 
 peer.on('open', function(id) {
